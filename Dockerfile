@@ -48,3 +48,7 @@ ENV PATH="/root/augustus/bin:${PATH}"
 
 # Test AUGUSTUS
 RUN make unit_test
+
+# Ensembl Genebuild additions
+ENV AUGUSTUS_CONFIG_PATH="/root/augustus/config"
+ENTRYPOINT ["augustus"]

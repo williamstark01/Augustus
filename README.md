@@ -48,6 +48,32 @@ After retrieving Augustus change into the main directory containing the
 docker build -t augustus .
 ```
 
+### Ensembl Genebuild container
+
+build a Docker image
+```
+docker build -t williamebi/augustus:3.4.0 .
+```
+
+upload the Docker image to Docker Hub
+```
+docker push williamebi/augustus:3.4.0
+```
+
+generate a Singularity image from the Docker image at Docker Hub
+```
+singularity pull docker://williamebi/augustus:3.4.0
+```
+
+submit a job for running the Singularity image on LFS
+```
+JOB_NAME="augustus:3.4.0"; MEM_LIMIT=16384; \
+bsub -M $MEM_LIMIT -R"select[mem>$MEM_LIMIT] rusage[mem=$MEM_LIMIT]" \
+-o "${JOB_NAME}.stdout.txt" -e "${JOB_NAME}.stderr.txt" \
+"singularity run /hps/nobackup2/singularity/william/augustus-3.4.0.simg --species=human /hps/nobackup2/production/ensembl/jma/toplevel.with_nonref_and_GRCh38_p7.no_duplicate.softmasked_dusted.fa > /hps/nobackup2/production/ensembl/william/containers/augustus/augustus_container_human_ab_initio.gff"
+```
+
+
 ## Install dependencies
 
 The following dependencies are required for AUGUSTUS:
